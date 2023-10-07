@@ -4,7 +4,6 @@ function TextToSpeech() {
   const [text, setText] = useState('');
   const [speechSynthesisSupported, setSpeechSynthesisSupported] = useState(false);
 
-  // Check if the Speech Synthesis API is supported in the browser
   useEffect(() => {
     if ('speechSynthesis' in window) {
       setSpeechSynthesisSupported(true);
@@ -12,13 +11,10 @@ function TextToSpeech() {
       console.warn('Speech synthesis is not supported in this browser.');
     }
   }, []);
-
-  // Function to handle text input change
   const handleTextChange = (event) => {
     setText(event.target.value);
   };
 
-  // Function to handle text-to-speech conversion
   const handleSpeak = () => {
     if (speechSynthesisSupported && text.trim() !== '') {
       const speechSynthesis = window.speechSynthesis;
