@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const LocationTracker = () => {
   const [locationData, setLocationData] = useState(null);
+  const [placeName, setPlaceName] = useState('');
+
 
   useEffect(() => {
-    // Fetch the device's location when the component mounts
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLocationData({
@@ -18,24 +20,42 @@ const LocationTracker = () => {
     );
   }, []);
 
-  const saveLocation = () => {
+  useEffect(() => {
+    // Use the Google Maps Geocoding API to convert coordinates into a place name
     if (locationData) {
-      fetch('/api/location', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(locationData),
-      })
+      const { latitude, longitude } = locationData;
+      const apiKey = 'AIzaSyDkRb7OLdil8cgM2b5ZRvbbJYzZZvtNBBE';
+
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
+      )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data); // You can handle the response as needed
+          if (data.results && data.results.length > 0) {
+            setPlaceName(data.results[6].address_components[0].long_name);
+          } else {
+            setPlaceName('Location not found');
+          }
+          console.log(data);
         })
         .catch((error) => {
-          console.error(error);
+          console.error('Error fetching place name:', error);
         });
     }
-  };
+  }, [locationData]);
+
+  async function sendRequest() {
+    try {
+      if (locationData) {
+        const response = await axios.post('http://localhost:5000/api/location', {
+          latitude: locationData.latitude,
+          longitude: locationData.longitude,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div>
@@ -43,11 +63,12 @@ const LocationTracker = () => {
         <div>
           <p>Latitude: {locationData.latitude}</p>
           <p>Longitude: {locationData.longitude}</p>
-          <button onClick={saveLocation}>Save Location</button>
+          <p>Place: {placeName}</p>
         </div>
       ) : (
         <p>Fetching location...</p>
       )}
+      <button onClick={sendRequest}>Send Location Data</button>
     </div>
   );
 };

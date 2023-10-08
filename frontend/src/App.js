@@ -5,7 +5,7 @@ import LocationTracker from './location';
 function App() {
   return (
     <div className="App">
-      
+    
     <TextToSpeech/>
     <LocationTracker/>
     </div>

@@ -19,7 +19,7 @@ app.post('/api/location', async (req, res) => {
     const { latitude, longitude } = req.body;
     const location = new Location({ latitude, longitude });
     await location.save();
-    res.json({ success: true, message: 'Location saved successfully' });
+    res.json({location});
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Error saving location' });
