@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import CircularJSON from 'circular-json'; //
 
 const LocationTracker = () => {
   const [locationData, setLocationData] = useState(null);
@@ -36,7 +37,7 @@ const LocationTracker = () => {
           } else {
             setPlaceName('Location not found');
           }
-          console.log(data);
+          // console.log(data);
         })
         .catch((error) => {
           console.error('Error fetching place name:', error);
@@ -44,19 +45,25 @@ const LocationTracker = () => {
     }
   }, [locationData]);
 
-  async function sendRequest() {
+  
+  const sendLocationData = async () => {
     try {
-      if (locationData) {
-        const response = await axios.post('http://localhost:5000/api/location', {
-          latitude: locationData.latitude,
-          longitude: locationData.longitude,
-        });
-      }
+      const response = await axios.post('http://localhost:5000/api/location', {
+        latitude: locationData.latitude,
+        longitude: locationData.longitude,
+      });
+      console.log(response.data.message);
     } catch (error) {
-      console.error(error);
+      if (axios.isAxiosError(error)) {
+        // AxiosError specific handling
+        console.error('Axios error:', error.response);
+        console.error('Axios request config:', error.config);
+      } else {
+        // Generic error handling
+        console.error('Error sending location data:', error);
+      }
     }
-  }
-
+  };
   return (
     <div>
       {locationData ? (
@@ -68,7 +75,7 @@ const LocationTracker = () => {
       ) : (
         <p>Fetching location...</p>
       )}
-      <button onClick={sendRequest}>Send Location Data</button>
+      <button onClick={sendLocationData}>Send Location Data</button>
     </div>
   );
 };
