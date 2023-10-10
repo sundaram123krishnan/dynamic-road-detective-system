@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb');
 // Replace these with your MongoDB connection details
 const MONGODB_URI = 'mongodb+srv://krishnsundaram:zZdqmFc1hh9SJ8PG@cluster0.wyvjx1u.mongodb.net/';
 
-const COLLECTION_NAME = 'locations';
+const COLLECTION_NAME = 'location';
 
 exports.handler = async (event) => { // Ensure event parameter is defined
   try {
