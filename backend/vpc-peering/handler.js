@@ -13,7 +13,7 @@ exports.handler = async (event) => {
         Longitude: longitude,
       },
     };
-    
+    console.log(latitude, longitude);
     await dynamodb.put(params).promise();
 
     return {
