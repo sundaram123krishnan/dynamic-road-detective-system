@@ -12,7 +12,7 @@ functions:
           path: save-location
           method: post
     environment:
-      DYNAMODB_TABLE: LocationData # Replace with your DynamoDB table name
+      DYNAMODB_TABLE: Location # Replace with your DynamoDB table name
 
 plugins:
   - serverless-offline
@@ -22,10 +22,10 @@ resources:
     LocationDataTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        TableName: Location # Replace with your DynamoDB table name
         AttributeDefinitions:
           - AttributeName: LocationId
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           - AttributeName: LocationId
             KeyType: HASH
