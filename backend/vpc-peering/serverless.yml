@@ -13,8 +13,8 @@ functions:
   saveLocation:
     handler: handler.handler
     environment:
-      MONGODB_URI: ''  # Replace with your MongoDB connection details
-      COLLECTION_NAME: 'mongodb+srv://krishnsundaram:zZdqmFc1hh9SJ8PG@cluster0.wyvjx1u.mongodb.net/'
+      MONGODB_URI: 'mongodb+srv://krishnsundaram:zZdqmFc1hh9SJ8PG@cluster0.wyvjx1u.mongodb.net/'  # Replace with your MongoDB connection details
+      COLLECTION_NAME: 'location'
     events:
       - http:
           path: save-location
