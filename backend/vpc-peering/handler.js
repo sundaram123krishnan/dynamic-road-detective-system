@@ -1,37 +1,37 @@
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 
-exports.handler = async (event, context) => {
-  // Get the latitude and longitude from the event
-  const latitude = event.latitude;
-  const longitude = event.longitude;
-  
-  // Validate the latitude and longitude
-  if (!latitude || !longitude) {
+// Define the MongoDB connection details and collection name
+const MONGODB_URI = process.env.MONGODB_URI;
+const COLLECTION_NAME = process.env.COLLECTION_NAME;
+
+exports.handler = async (event) => {
+  try {
+    // Parse the JSON body from the HTTP request
+    const { latitude, longitude } = JSON.parse(event.body);
+
+    // Connect to MongoDB
+    const client = new MongoClient(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
+
+    // Access the MongoDB collection
+    const db = client.db();
+    const collection = db.collection(COLLECTION_NAME);
+
+    // Insert location data into the collection
+    const insertResult = await collection.insertOne({ latitude, longitude });
+
+    // Close the MongoDB connection
+    await client.close();
+
     return {
-      statusCode: 400,
-      body: JSON.stringify('Missing latitude or longitude'),
+      statusCode: 200,
+      body: JSON.stringify({ message: 'Location saved successfully' }),
+    };
+  } catch (error) {
+    console.error('Error:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'An error occurred while saving the location' }),
     };
   }
-
-  // Create a connection to MongoDB
-  const client = await MongoClient.connect('mongodb+srv://krishnsundaram:zZdqmFc1hh9SJ8PG@cluster0.wyvjx1u.mongodb.net/', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
-  // Get the database and collection
-  const db = client.db('location');
-  const collection = db.collection('location');
-
-  // Insert the latitude and longitude into MongoDB
-  await collection.insertOne({ latitude, longitude });
-
-  // Close the connection to MongoDB
-  await client.close();
-
-  // Return a success response
-  return {
-    statusCode: 200,
-    body: JSON.stringify('Successfully inserted data into MongoDB'),
-  };
 };
