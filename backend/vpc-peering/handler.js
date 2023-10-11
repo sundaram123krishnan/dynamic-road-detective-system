@@ -3,7 +3,12 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
   try {
-    const requestBody = JSON.parse(event.body);
+    // const requestBody = JSON.parse(event.body);
+
+    const requestBody = {
+      latitude: 123,
+      longitude: 123
+    }
 
     // Check if the request body contains valid latitude and longitude values
     if (!requestBody.latitude || !requestBody.longitude) {
