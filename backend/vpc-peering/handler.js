@@ -1,27 +1,20 @@
-const { MongoClient } = require('mongodb');
-
-// Define the MongoDB connection details and collection name
-const MONGODB_URI = process.env.MONGODB_URI;
-const COLLECTION_NAME = process.env.COLLECTION_NAME;
+const AWS = require('aws-sdk');
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
   try {
-    // Parse the JSON body from the HTTP request
     const { latitude, longitude } = JSON.parse(event.body);
 
-    // Connect to MongoDB
-    const client = new MongoClient(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
+    const params = {
+      TableName: 'LocationData', // Replace with your DynamoDB table name
+      Item: {
+        LocationId: Date.now().toString(), // Using a timestamp as the unique ID
+        Latitude: latitude,
+        Longitude: longitude,
+      },
+    };
 
-    // Access the MongoDB collection
-    const db = client.db();
-    const collection = db.collection(COLLECTION_NAME);
-
-    // Insert location data into the collection
-    const insertResult = await collection.insertOne({ latitude, longitude });
-
-    // Close the MongoDB connection
-    await client.close();
+    await dynamodb.put(params).promise();
 
     return {
       statusCode: 200,
