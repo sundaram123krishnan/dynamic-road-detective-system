@@ -6,7 +6,7 @@ exports.handler = async (event) => {
     const { latitude, longitude } = JSON.parse(event.body);
 
     const params = {
-      TableName: 'LocationData',
+      TableName: 'Location',
       Item: {
         LocationId: Date.now().toString(),
         Latitude: latitude,
