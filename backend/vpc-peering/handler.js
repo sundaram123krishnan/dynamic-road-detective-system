@@ -6,14 +6,14 @@ exports.handler = async (event) => {
     const { latitude, longitude } = JSON.parse(event.body);
 
     const params = {
-      TableName: 'LocationData', // Replace with your DynamoDB table name
+      TableName: 'Location', // Replace with your DynamoDB table name
       Item: {
         LocationId: Date.now().toString(), // Using a timestamp as the unique ID
         Latitude: latitude,
         Longitude: longitude,
       },
     };
-
+    
     await dynamodb.put(params).promise();
 
     return {
