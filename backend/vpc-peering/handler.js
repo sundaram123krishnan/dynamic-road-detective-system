@@ -3,17 +3,25 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
   try {
-    const { latitude, longitude } = JSON.parse(event.body);
+    const requestBody = JSON.parse(event.body);
+
+    // Check if the request body contains valid latitude and longitude values
+    if (!requestBody.latitude || !requestBody.longitude) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Invalid request data. Both latitude and longitude are required.' }),
+      };
+    }
 
     const params = {
-      TableName: 'Location', // Replace with your DynamoDB table name
+      TableName: process.env.DYNAMODB_TABLE, // Replace with your DynamoDB table name
       Item: {
         LocationId: Date.now().toString(), // Using a timestamp as the unique ID
-        Latitude: latitude,
-        Longitude: longitude,
+        Latitude: requestBody.latitude,
+        Longitude: requestBody.longitude,
       },
     };
-    console.log(latitude, longitude);
+
     await dynamodb.put(params).promise();
 
     return {
