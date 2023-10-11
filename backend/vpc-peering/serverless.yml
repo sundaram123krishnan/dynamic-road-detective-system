@@ -1,4 +1,4 @@
-service: location-service
+service: lambda-mongodb
 frameworkVersion: "3"
 
 provider:
