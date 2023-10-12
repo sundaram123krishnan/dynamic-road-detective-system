@@ -8,7 +8,7 @@ exports.handler = async (event) => {
     const params = {
       TableName: 'Location',
       Item: {
-        LocationId: {N : Date.now().toString() },
+        LocationId: { N: Date.now().toString() },
         Latitude: latitude,
         Longitude: longitude,
       },
