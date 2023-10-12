@@ -5,10 +5,12 @@ exports.handler = async (event) => {
   try {
     const { latitude, longitude } = JSON.parse(event.body);
 
+    const locationId = Date.now();
+
     const params = {
       TableName: 'Location',
       Item: {
-        LocationId: { N: Date.now().toString() },
+        LocationId: locationId,
         Latitude: latitude,
         Longitude: longitude,
       },
