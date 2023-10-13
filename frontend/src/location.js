@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CircularJSON from 'circular-json'; //
 
 const LocationTracker = () => {
   const [locationData, setLocationData] = useState(null);
