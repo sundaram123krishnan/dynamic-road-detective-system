@@ -20,7 +20,6 @@ const LocationTracker = () => {
       }
     );
   }, []);
-
   useEffect(() => {
     // Use the Google Maps Geocoding API to convert coordinates into a place name
     if (locationData) {
@@ -48,7 +47,7 @@ const LocationTracker = () => {
   
   const sendLocationData = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/location', {
+      const response = await axios.post('https://cnp23bo3zj.execute-api.us-east-1.amazonaws.com/dev/save-location', {
         latitude: locationData.latitude,
         longitude: locationData.longitude,
       });
