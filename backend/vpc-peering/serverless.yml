@@ -11,6 +11,7 @@ functions:
       - http:
           path: save-location
           method: post  
+          cors: true
     environment:
       DYNAMODB_TABLE: Location # Replace with your DynamoDB table name
 
@@ -25,7 +26,7 @@ resources:
         TableName: Location # Replace with your DynamoDB table name
         AttributeDefinitions:
           - AttributeName: LocationId
-            AttributeType: N
+            AttributeType: N  
         KeySchema:
           - AttributeName: LocationId
             KeyType: HASH
@@ -36,4 +37,5 @@ resources:
 custom:
   serverless-offline:
     httpPort: 3000
-    cors: true
+    cors:
+      origin: '*'
