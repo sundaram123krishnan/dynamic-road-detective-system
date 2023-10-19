@@ -3,7 +3,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient({ region: 'us-east-1' });
 
 exports.handler = async (event) => {
   try {
-    const { latitude, longitude } = JSON.parse(event.body);
+    const { latitude, longitude, image_source, text } = JSON.parse(event.body);
 
     const locationId = Date.now();
 
@@ -13,6 +13,8 @@ exports.handler = async (event) => {
         LocationId: locationId,
         Latitude: latitude,
         Longitude: longitude,
+        Image_source: image_source,
+        Text: text,
       },
     };
 
