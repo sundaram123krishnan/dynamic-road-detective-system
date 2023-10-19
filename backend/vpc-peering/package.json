@@ -3,7 +3,8 @@
     "aws": "^0.0.3-2",
     "aws-sdk": "^2.1472.0",
     "mongodb": "^6.1.0",
-    "serverless-cors-plugin": "^0.4.2"
+    "serverless-cors-plugin": "^0.4.2",
+    "topo": "^3.0.3"
   },
   "devDependencies": {
     "serverless-offline": "^13.2.0"
