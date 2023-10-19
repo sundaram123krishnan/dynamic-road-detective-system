@@ -36,3 +36,4 @@ resources:
 custom:
   serverless-offline:
     httpPort: 3000
+    cors: true
