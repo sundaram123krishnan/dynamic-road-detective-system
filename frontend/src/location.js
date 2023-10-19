@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import RoadPhoto from './RoadPhoto';
+
 
 const LocationTracker = () => {
   const [locationData, setLocationData] = useState(null);
   const [placeName, setPlaceName] = useState('');
-
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -19,6 +20,7 @@ const LocationTracker = () => {
       }
     );
   }, []);
+
   useEffect(() => {
     // Use the Google Maps Geocoding API to convert coordinates into a place name
     if (locationData) {
@@ -46,10 +48,12 @@ const LocationTracker = () => {
   
   const sendLocationData = async () => {
     try {
+
       const response = await axios.post('https://cnp23bo3zj.execute-api.us-east-1.amazonaws.com/dev/save-location', {
         latitude: locationData.latitude,
         longitude: locationData.longitude,
       });
+     
       console.log(response.data.message);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -62,18 +66,42 @@ const LocationTracker = () => {
       }
     }
   };
+  async function sendDataToAPI() {
+    const apiUrl = 'https://cnp23bo3zj.execute-api.us-east-1.amazonaws.com/dev/save-location';
+  
+    const data = {
+      latitude: locationData.latitude, // Replace with your latitude data
+      longitude: locationData.longitude, // Replace with your longitude data
+    };
+  
+    const headers = {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*', // Replace with the appropriate origin or '*' if you want to allow any origin
+    };
+  
+    try {
+      const response = await axios.post(apiUrl, data, { headers });
+      console.log('Response:', response.data);
+      // You can handle the response here, e.g., show a success message to the user.
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle any errors, e.g., show an error message to the user.
+    }
+  }
   return (
     <div>
       {locationData ? (
         <div>
-          <p>Latitude: {locationData.latitude}</p>
-          <p>Longitude: {locationData.longitude}</p>
-          <p>Place: {placeName}</p>
+          {/* <p>Latitude: {locationData.latitude}</p>
+          <p>Longitude: {locationData.longitude}</p> */}
+          <p className='font-bold uppercase text-2xl text-center'>You are in {placeName}</p>
+          <RoadPhoto latitude={locationData.latitude} longitude={locationData.longitude}/>
         </div>
       ) : (
         <p>Fetching location...</p>
       )}
-      <button onClick={sendLocationData}>Send Location Data</button>
+      
+      <button onClick={sendDataToAPI}>Send Location Data</button>
     </div>
   );
 };
