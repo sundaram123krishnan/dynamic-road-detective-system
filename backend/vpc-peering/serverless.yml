@@ -11,13 +11,11 @@ functions:
       - http:
           path: save-location
           method: post
-          cors: true
     environment:
       DYNAMODB_TABLE: Location # Replace with your DynamoDB table name
 
 plugins:
   - serverless-offline
-  - serverless-cors-plugin 
 
 resources:
   Resources:
