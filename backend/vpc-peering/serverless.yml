@@ -2,7 +2,7 @@ service: lambda-mongodb
 provider:
   name: aws
   runtime: nodejs14.x
-  region: us-east-1
+  region: us-east-1 # Replace with your desired AWS region
 
 functions:
   saveLocation:
@@ -10,11 +10,10 @@ functions:
     events:
       - http:
           path: save-location
-          method: post
-          
-
-environment:
-  DYNAMODB_TABLE: Location
+          method: post  
+          cors: true
+    environment:
+      DYNAMODB_TABLE: Location # Replace with your DynamoDB table name
 
 plugins:
   - serverless-offline
@@ -24,7 +23,7 @@ resources:
     LocationDataTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Location
+        TableName: Location # Replace with your DynamoDB table name
         AttributeDefinitions:
           - AttributeName: LocationId
             AttributeType: N
