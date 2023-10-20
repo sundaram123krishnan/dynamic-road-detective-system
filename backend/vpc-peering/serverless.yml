@@ -10,7 +10,12 @@ functions:
     events:
       - http:
           path: save-location
-          method: post  
+          method: options
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+            allowCredentials: false
     environment:
       DYNAMODB_TABLE: Location # Replace with your DynamoDB table name
 
