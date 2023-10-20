@@ -11,7 +11,7 @@ functions:
       - http:
           path: save-location
           method: post
-         private: true
+          private: true
           cors:
             origin: '*'
             headers:
