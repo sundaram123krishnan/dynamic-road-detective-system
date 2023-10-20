@@ -10,17 +10,25 @@ functions:
     events:
       - http:
           path: save-location
-          method: options
+          method: post
+         private: true
           cors:
             origin: '*'
             headers:
               - Content-Type
-            allowCredentials: false
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - X-Amzn-Trace-Id
+            allowCredentials: true
     environment:
       DYNAMODB_TABLE: Location # Replace with your DynamoDB table name
 
 plugins:
   - serverless-offline
+
 
 resources:
   Resources:
@@ -41,4 +49,3 @@ resources:
 custom:
   serverless-offline:
     httpPort: 3000
-    cors: true
