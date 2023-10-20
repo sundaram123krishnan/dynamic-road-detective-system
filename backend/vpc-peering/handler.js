@@ -24,6 +24,7 @@ exports.handler = async (event) => {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
         'Access-Control-Allow-Credentials': true,
       },
       body: JSON.stringify({ message: 'Location saved successfully' }),
@@ -34,6 +35,7 @@ exports.handler = async (event) => {
       statusCode: 500,
       headers: {
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
         'Access-Control-Allow-Credentials': true,
       },
       body: JSON.stringify({ error: 'An error occurred while saving the location' }),
