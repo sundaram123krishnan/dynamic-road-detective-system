@@ -22,22 +22,22 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Headers" : "Content-Type",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
-    },
+    //   headers: {
+    //     "Access-Control-Allow-Headers" : "Content-Type",
+    //     "Access-Control-Allow-Origin": "*",
+    //     "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+    // },
       body: JSON.stringify({ message: 'Location saved successfully' }),
     };
   } catch (error) {
     console.error('Error:', error);
     return {
       statusCode: 500,
-      headers: {
-        "Access-Control-Allow-Headers" : "Content-Type",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
-    },
+    //   headers: {
+    //     "Access-Control-Allow-Headers" : "Content-Type",
+    //     "Access-Control-Allow-Origin": "*",
+    //     "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+    // },
       body: JSON.stringify({ error: 'An error occurred while saving the location' }),
     };
   }
