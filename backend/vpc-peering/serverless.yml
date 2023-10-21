@@ -9,7 +9,7 @@ functions:
     handler: handler.handler
     events:
       - http:
-          path: save-location
+          path: /
           method: post
           private: true
           cors:
