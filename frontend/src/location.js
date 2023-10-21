@@ -67,16 +67,17 @@ const LocationTracker = () => {
     }
   };
   async function sendDataToAPI() {
-    const apiUrl = 'https://cnp23bo3zj.execute-api.us-east-1.amazonaws.com/dev/save-location';
+    const apiUrl = 'https://cnp23bo3zj.execute-api.us-east-1.amazonaws.com/dev';
   
     const data = {
       latitude: locationData.latitude, // Replace with your latitude data
       longitude: locationData.longitude, // Replace with your longitude data
+      Image_source: "hello image", 
+      Text: "hello text",
     };
   
     const headers = {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*', // Replace with the appropriate origin or '*' if you want to allow any origin
     };
   
     try {
@@ -88,6 +89,7 @@ const LocationTracker = () => {
       // Handle any errors, e.g., show an error message to the user.
     }
   }
+  
   return (
     <div>
       {locationData ? (
