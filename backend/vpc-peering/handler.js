@@ -43,15 +43,3 @@ exports.handler = async (event) => {
   }
 };
 
-module.exports.options = (event, context, callback) => {
-  const response = {
-    statusCode: 200,
-    headers: {
-      "Access-Control-Allow-Headers" : "Content-Type",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
-  },
-  };
-
-  callback(null, response);
-};
