@@ -8,8 +8,8 @@ functions:
   saveLocation:
     handler: handler.handler
     events:
-      - http:
-          path: save-location
+      - httpApi:
+          path: /
           method: post
           private: true
           cors:
