@@ -8,7 +8,7 @@ functions:
   saveLocation:
     handler: handler.handler
     events:
-      - httpApi:
+      - http:
           path: /
           method: post
           private: true
