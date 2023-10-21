@@ -10,6 +10,7 @@ functions:
     events:
       - http:
           path: /
+          method: post
     environment:
       DYNAMODB_TABLE: Location # Replace with your DynamoDB table name
 
