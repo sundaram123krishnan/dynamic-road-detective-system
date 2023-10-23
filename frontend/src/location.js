@@ -1,59 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import UnsplashImage from './UnsplashImage';
-
+import TextToSpeech from './TextToSpeech';
 
 
 const LocationTracker = () => {
-  const [locationData, setLocationData] = useState(null);
-  const [placeName, setPlaceName] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [locationData, setLocationData] = useState({});
+  const [placeName, setPlaceName] = useState({});
+  const [imageUrl, setImageUrl] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        setLocationData({
+    // Get the user's location when available
+    const fetchData = async () => {
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        const newLocationData = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-        });
+        };
 
-        // Call the API function right here after obtaining the location data
-        await sendDataToAPI();
-      },
-      (error) => {
-        console.error(error);
+        setLocationData(newLocationData);
+
+        // Use the Google Maps Geocoding API to convert coordinates into a place name
+        const { latitude, longitude } = newLocationData;
+        const apiKey = 'AIzaSyDkRb7OLdil8cgM2b5ZRvbbJYzZZvtNBBE';
+
+        fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.results && data.results.length > 0) {
+              setPlaceName(data.results[6].address_components[0].long_name);
+            } else {
+              setPlaceName('Location not found');
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching place name:', error);
+          });
+      } catch (error) {
+        console.error('Error getting location:', error);
+      } finally {
+        setIsLoading(false); // Mark loading as complete
       }
-    );
-  }, []);
+    };
+
+    fetchData();
+  }, []); // Empty dependency array for running once after component mount
 
   useEffect(() => {
-    // Use the Google Maps Geocoding API to convert coordinates into a place name
-    if (locationData) {
-      const { latitude, longitude } = locationData;
-      const apiKey = 'AIzaSyDkRb7OLdil8cgM2b5ZRvbbJYzZZvtNBBE';
+    if (!isLoading) {
+      // Send the data to the API once the page is loaded
+      sendDataToAPI({ ...locationData, imageUrl });
+    }
+  }, [isLoading, locationData, imageUrl]);
 
-      fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.results && data.results.length > 0) {
-            setPlaceName(data.results[6].address_components[0].long_name);
-          } else {
-            setPlaceName('Location not found');
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching place name:', error);
-        });
-
-      // Fetch an image from Unsplash
+  useEffect(() => {
+    if (!isLoading) {
+      // Fetch an image from Unsplash based on the placeName
       const unsplashAccessKey = 'jqMGMmZjaap48DsE7mlb6F2UhWXALiYcB0Ge7SS1qLQ';
       axios
         .get('https://api.unsplash.com/photos/random', {
           params: {
             client_id: unsplashAccessKey,
-            query: placeName, // Use the place name as a search query
+            query: 'city', // Use the place name as a search query
           },
         })
         .then((response) => {
@@ -66,8 +80,7 @@ const LocationTracker = () => {
     }
   }, [locationData, placeName]);
 
-
-  const sendDataToAPI = async () => {
+    const sendDataToAPI = async () => {
     const apiUrl = 'https://zc9vil92x3.execute-api.us-east-1.amazonaws.com/dev/';
     
     const data = {
@@ -75,10 +88,10 @@ const LocationTracker = () => {
         latitude: locationData.latitude,
         longitude: locationData.longitude,
         image_source: imageUrl,
-        parameter2: 'Value2', 
+        text: 'hello world', 
       }),
     };
-    
+  
     const headers = {
       'Content-Type': 'application/json',
     };
@@ -101,28 +114,41 @@ const LocationTracker = () => {
     }
   };
 
-  
-  
   return (
-    <div className='flex flex-col items-center justify-center gap-5'>
-      {locationData ? (
-        <div>
-          <p className='font-bold uppercase text-2xl text-center'>
-            You are in {placeName}
-          </p>
-          {imageUrl && (
-            <img
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+  {isLoading ? (
+    <p className="text-2xl font-bold">Loading...</p>
+  ) : (
+    
+    <div className="flex flex-col items-center justify-center space-y-5 lg:space-y-10">
+      <h1 className='text-center text-3xl uppercase font-bold'>Dynamic road detective system</h1>
+      <div className="flex flex-col items-center space-y-5 lg:space-y-10">
+        <p className="text-2xl font-bold text-center lg:text-left">
+          You are in {placeName.toString()}
+        </p>
+        {imageUrl && (
+          <img
             src={imageUrl}
             alt="Location"
-            style={{ width: '400px', height: '400px' }}
+            className="w-full lg:w-64 h-auto rounded-md shadow-md"
           />
-          )}
-        </div>
-      ) : (
-        <p>Fetching location...</p>
-      )}
+        )}
+      </div>
+      <TextToSpeech />
     </div>
+  )}
+</div>
+
+  
+
+
   );
 };
 
 export default LocationTracker;
+
+
+
+
+  
+

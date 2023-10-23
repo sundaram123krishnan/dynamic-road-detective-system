@@ -11,6 +11,7 @@ function TextToSpeech() {
       console.warn('Speech synthesis is not supported in this browser.');
     }
   }, []);
+
   const handleTextChange = (event) => {
     setText(event.target.value);
   };
@@ -24,19 +25,25 @@ function TextToSpeech() {
   };
 
   return (
-    <div>
-      <h1>Text to Speech Conversion</h1>
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="text-3xl font-bold mb-4">Text to Speech Conversion</h1>
       {speechSynthesisSupported ? (
-        <div>
+        <div className="w-full max-w-lg text-center">
           <textarea
+            className="w-full h-32 p-2 border rounded-md mb-4"
             placeholder="Enter text to speak..."
             value={text}
             onChange={handleTextChange}
           ></textarea>
-          <button onClick={handleSpeak}>Speak</button>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            onClick={handleSpeak}
+          >
+            Speak
+          </button>
         </div>
       ) : (
-        <p>Speech synthesis is not supported in this browser.</p>
+        <p className="text-red-500">Speech synthesis is not supported in this browser.</p>
       )}
     </div>
   );
