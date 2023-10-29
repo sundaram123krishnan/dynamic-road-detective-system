@@ -1,4 +1,5 @@
 service: vehicle-count-service
+useExistingS3Bucket: cam-capture-bucket
 provider:
   name: aws
   runtime: python3.8
@@ -11,7 +12,6 @@ provider:
         - "arn:aws:s3:::cam-capture-bucket/*"
   environment:
     S3_BUCKET: cam-capture-bucket
-  useExistingS3Bucket: cam-capture-bucket
 functions:
   vehicleCounter:
     handler: handler.lambda_handler
