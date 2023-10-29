@@ -1,24 +1,22 @@
-service: vehicle-counter-service
+service: vehicle-count-service
 provider:
   name: aws
   runtime: python3.8
-  stage: dev
-  region: us-east-1 # Replace with your desired AWS region
-  timeout: 30
-  memorySize: 512
+  region: us-east-1
   iamRoleStatements:
     - Effect: Allow
       Action:
         - s3:GetObject
-        - s3:ListBucket
-      Resource: https://cam-capture-bucket.s3.ap-south-1.amazonaws.com/cam1_video/
-
-functions:
-  vehicleCounter:
-    handler: handler.lambda_handler # Path to your Lambda handler function
-    environment:
-      BUCKET_NAME: cam-capture-bucket
-    events:
-      - s3:
-          bucket: cam-capture-bucket
-          event: s3:ObjectCreated:*
+      Resource:
+        - "arn:aws:s3:::cam-capture-bucket/*"
+  environment:
+    S3_BUCKET: cam-capture-bucket
+  functions:
+    vehicleCounter:
+      handler: handler.lambda_handler
+      events:
+        - s3:
+            bucket: cam-capture-bucket
+            event: s3:ObjectCreated:*
+            rules:
+              - suffix: .mp4
