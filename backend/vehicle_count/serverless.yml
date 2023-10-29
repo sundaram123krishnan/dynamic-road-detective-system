@@ -11,7 +11,7 @@ provider:
       Action:
         - s3:GetObject
         - s3:ListBucket
-      Resource: arn:aws:s3:::cam-capture-bucket/*
+      Resource: https://cam-capture-bucket.s3.ap-south-1.amazonaws.com/cam1_video/
 
 functions:
   vehicleCounter:
