@@ -11,12 +11,12 @@ provider:
         - "arn:aws:s3:::cam-capture-bucket/*"
   environment:
     S3_BUCKET: cam-capture-bucket
-  functions:
-    vehicleCounter:
-      handler: handler.lambda_handler
-      events:
-        - s3:
-            bucket: cam-capture-bucket
-            event: s3:ObjectCreated:*
-            rules:
-              - suffix: .mp4
+functions:
+  vehicleCounter:
+    handler: handler.lambda_handler
+    events:
+      - s3:
+          bucket: cam-capture-bucket
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .mp4
