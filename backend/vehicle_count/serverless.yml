@@ -12,16 +12,12 @@ provider:
   environment:
     S3_BUCKET: cam-capture-bucket
 
-custom:
-  bucketName: cam-capture-bucket
-
 functions:
   vehicleCounter:
     handler: handler.lambda_handler
     events:
       - s3:
-          bucket: !Ref bucketName
+          bucket: cam-capture-bucket
           event: s3:ObjectCreated:*
-          existing: true
           rules:
             - suffix: .mp4
