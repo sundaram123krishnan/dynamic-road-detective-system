@@ -7,8 +7,7 @@ provider:
     - Effect: Allow
       Action:
         - s3:GetObject
-      Resource:
-        - "arn:aws:s3:::cam-capture-bucket/*"
+      Resource: "*"
   environment:
     S3_BUCKET: cam-capture-bucket
 
