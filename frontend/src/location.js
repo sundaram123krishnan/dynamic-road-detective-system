@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import VehicleCount from './VehicleCount';
+import VehicleCounter from './VehicleCount';
 
 
 const LocationTracker = () => {
@@ -135,27 +135,27 @@ const LocationTracker = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100" style={{ backgroundImage: "url('https://c1.wallpaperflare.com/preview/226/746/400/mountains-mountainous-layer-wallpaper.jpg')", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center" }}>
       {isLoading ? (
         <div className="flex items-center justify-center min-h-screen">
-          <p className="text-2xl font-bold">Loading...</p>
+          <p className="text-2xl font-bold text-gray-800">Loading...</p>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center space-y-5 lg:space-y-10">
-          <h1 className="text-3xl font-bold uppercase text-center">
+        <div className="flex flex-col items-center justify-center space-y-5 lg:space-y-10 py-12">
+          <h1 className="text-3xl font-bold uppercase text-center text-gray-800">
             Dynamic Road Detective System
           </h1>
-          <div className="flex flex-col items-center space-y-5 lg:space-y-10">
-            <p className="text-2xl font-bold text-center lg:text-left">
+          <div className="flex flex-col items-center space-y-5 lg:space-y-10 text-gray-800">
+            <p className="text-2xl font-bold text-center lg:text-left uppercase">
               You are in {placeName.toString()}
             </p>
             <img
               src="abc.jpeg"
               alt="Location"
-              className="w-full lg:w-64 h-auto rounded-md shadow-md max-w-screen-md"
+              className="w-full md:w-64 h-auto rounded-md shadow-md max-w-screen-sm"
             />
           </div>
-          <VehicleCount />
+          <VehicleCounter />
         </div>
       )}
     </div>
