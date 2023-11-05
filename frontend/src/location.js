@@ -120,7 +120,7 @@ const LocationTracker = () => {
 
   useEffect(() => {
     if (!isLoading && !hasSpoken && !error) {
-      const welcomeText = `Welcome to nilgiri district, ooty, The weather here is 23 degrees. Pls Don't drink and drive`;
+      const welcomeText = `Welcome to nilgiri district, ooty, The weather here is 23 degrees. Please Don't drink and drive`;
       
       if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(welcomeText);
