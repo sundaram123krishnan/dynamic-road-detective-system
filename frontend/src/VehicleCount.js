@@ -16,7 +16,7 @@ const VehicleCount = () => {
       setVehicleCount(vehicles);
       if (vehicles > 0 && !spokenRef.current) {
         spokenRef.current = true;
-        speakMessage('Stop! A vehicle is in the way. Move forward with caution.');
+        speakMessage('Caution 2-3 vehicles ahead');
       } else if (vehicles === 0) {
         spokenRef.current = false;
       }
