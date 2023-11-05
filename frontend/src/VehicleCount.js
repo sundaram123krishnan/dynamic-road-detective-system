@@ -14,7 +14,7 @@ const VehicleCount = () => {
     const updateVehicleCount = () => {
       const vehicles = Math.floor(Math.random() * 4);
       setVehicleCount(vehicles);
-
+      vehicleCount = 0
       if (vehicles > 0 && !spokenRef.current) {
         spokenRef.current = true;
         speakMessage('Stop! A vehicle is in the way. Move forward with caution.');
@@ -34,7 +34,7 @@ const VehicleCount = () => {
 
   return (
     <div>
-      <p>Vehicle Count: {vehicleCount}</p>
+      <p className='uppercase text-lg font-bold'>Vehicle Count: {vehicleCount}</p>
     </div>
   );
 };

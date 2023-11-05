@@ -135,24 +135,30 @@ const LocationTracker = () => {
 
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-  {isLoading ? (
-    <p className="text-2xl font-bold">Loading...</p>
-  ) : (
-    
-    <div className="flex flex-col items-center justify-center space-y-5 lg:space-y-10">
-      <h1 className='text-center text-3xl uppercase font-bold'>Dynamic road detective system</h1>
-      <div className="flex flex-col items-center space-y-5 lg:space-y-10">
-        <p className="text-2xl font-bold text-center lg:text-left">
-          You are in {placeName.toString()}
-        </p>
-        <img src='abc.jpeg'/>
-      </div>
-      <VehicleCount/>
+    <div className="min-h-screen bg-gray-100">
+      {isLoading ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <p className="text-2xl font-bold">Loading...</p>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center space-y-5 lg:space-y-10">
+          <h1 className="text-3xl font-bold uppercase text-center">
+            Dynamic Road Detective System
+          </h1>
+          <div className="flex flex-col items-center space-y-5 lg:space-y-10">
+            <p className="text-2xl font-bold text-center lg:text-left">
+              You are in {placeName.toString()}
+            </p>
+            <img
+              src="abc.jpeg"
+              alt="Location"
+              className="w-full lg:w-64 h-auto rounded-md shadow-md max-w-screen-md"
+            />
+          </div>
+          <VehicleCount />
+        </div>
+      )}
     </div>
-  )}
-</div>
-
   );
 
 };
