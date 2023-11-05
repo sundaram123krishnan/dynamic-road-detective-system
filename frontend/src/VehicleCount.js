@@ -22,7 +22,7 @@ const VehicleCount = () => {
       }
     };
 
-    const intervalId = setInterval(updateVehicleCount, 3000);
+    const intervalId = setInterval(updateVehicleCount, 2000);
 
     updateVehicleCount();
 
