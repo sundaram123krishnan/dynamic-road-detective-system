@@ -1,9 +1,0 @@
-service: vehicle-count-service
-provider:
-  name: aws
-  runtime: python3.8
-  region: us-east-1
-
-functions:
-  vehicleCounter:
-    handler: handler.lambda_handler

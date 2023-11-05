@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TextToSpeech from './TextToSpeech';
+import VehicleCount from './VehicleCount';
 
 
 const LocationTracker = () => {
@@ -8,9 +8,11 @@ const LocationTracker = () => {
   const [placeName, setPlaceName] = useState({});
   const [imageUrl, setImageUrl] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [welcomeMessage, setWelcomeMessage] = useState(null);
+  const [hasSpoken, setHasSpoken] = useState(false); 
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Get the user's location when available
     const fetchData = async () => {
       try {
         const position = await new Promise((resolve, reject) => {
@@ -24,7 +26,6 @@ const LocationTracker = () => {
 
         setLocationData(newLocationData);
 
-        // Use the Google Maps Geocoding API to convert coordinates into a place name
         const { latitude, longitude } = newLocationData;
         const apiKey = 'AIzaSyDkRb7OLdil8cgM2b5ZRvbbJYzZZvtNBBE';
 
@@ -45,29 +46,32 @@ const LocationTracker = () => {
       } catch (error) {
         console.error('Error getting location:', error);
       } finally {
-        setIsLoading(false); // Mark loading as complete
+        setIsLoading(false); 
       }
     };
 
-    fetchData();
-  }, []); // Empty dependency array for running once after component mount
+    fetchData().catch((error) => {
+      // Handle errors when accessing location
+      console.error('Error getting location:', error);
+      setError('Please enable your device location to use this feature.');
+      setIsLoading(false);
+    });;
+  }, []); 
 
   useEffect(() => {
     if (!isLoading) {
-      // Send the data to the API once the page is loaded
       sendDataToAPI({ ...locationData, imageUrl });
     }
   }, [isLoading, locationData, imageUrl]);
 
   useEffect(() => {
     if (!isLoading) {
-      // Fetch an image from Unsplash based on the placeName
       const unsplashAccessKey = 'jqMGMmZjaap48DsE7mlb6F2UhWXALiYcB0Ge7SS1qLQ';
       axios
         .get('https://api.unsplash.com/photos/random', {
           params: {
             client_id: unsplashAccessKey,
-            query: 'city', // Use the place name as a search query
+            query: 'city', 
           },
         })
         .then((response) => {
@@ -114,6 +118,22 @@ const LocationTracker = () => {
     }
   };
 
+  useEffect(() => {
+    if (!isLoading && !hasSpoken && !error) {
+      const welcomeText = `Welcome to nilgiri district, ooty, The weather here is 23 degrees. Pls Don't drink and drive`;
+      
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(welcomeText);
+
+        speechSynthesis.speak(utterance);
+
+        setHasSpoken(true);
+      }
+    }
+  }, [isLoading, placeName, hasSpoken]);
+
+
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
   {isLoading ? (
@@ -126,23 +146,15 @@ const LocationTracker = () => {
         <p className="text-2xl font-bold text-center lg:text-left">
           You are in {placeName.toString()}
         </p>
-        {imageUrl && (
-          <img
-            src={imageUrl}
-            alt="Location"
-            className="w-full lg:w-64 h-auto rounded-md shadow-md"
-          />
-        )}
+        <img src='abc.jpeg'/>
       </div>
-      <TextToSpeech />
+      <VehicleCount/>
     </div>
   )}
 </div>
 
-  
-
-
   );
+
 };
 
 export default LocationTracker;
