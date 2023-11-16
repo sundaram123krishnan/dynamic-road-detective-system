@@ -42,43 +42,76 @@
 // export default VehicleCount;
 
 
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+
+// const VehicleCounter = () => {
+//   const [vehicleCount, setVehicleCount] = useState(0);
+//   const [randomSpeech, setRandomSpeech] = useState('');
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setVehicleCount(Math.floor(Math.random() * 3));
+//     }, 4000);
+//     let randomSpeech = "";
+//     if (vehicleCount > 0) {
+//       const vehicles = vehicleCount
+//       if (vehicles==1) {
+//         randomSpeech = 'Caution 1 vehicle ahead'
+//       }
+//       else if(vehicles==2) {
+//         randomSpeech = 'Caution 2 vehicles ahead';
+//       }
+//       else {
+//         randomSpeech = 'Caution 3 vehicles ahead';
+//       }
+//       setRandomSpeech(randomSpeech[Math.floor(Math.random() * randomSpeech.length)]);
+
+//       const msg = new SpeechSynthesisUtterance(randomSpeech);
+//       speechSynthesis.speak(msg);
+//     }
+
+//     return () => clearInterval(interval);
+//   }, [vehicleCount]);
+
+//   return (
+//     <div>
+//       <p className='font-bold text-xl uppercase text-gray-800'>Vehicle count: {vehicleCount}</p>
+//     </div>
+//   );
+// };
+
+// export default VehicleCounter;
+
+
+import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 
 const VehicleCounter = () => {
-  const [vehicleCount, setVehicleCount] = useState(0);
-  const [randomSpeech, setRandomSpeech] = useState('');
 
+  const [count, setCount] = useState(0);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setVehicleCount(Math.floor(Math.random() * 3));
-    }, 4000);
-    let randomSpeech = "";
-    if (vehicleCount > 0) {
-      const vehicles = vehicleCount
-      if (vehicles==1) {
-        randomSpeech = 'Caution 1 vehicle ahead'
-      }
-      else if(vehicles==2) {
-        randomSpeech = 'Caution 2 vehicles ahead';
-      }
-      else {
-        randomSpeech = 'Caution 3 vehicles ahead';
-      }
-      setRandomSpeech(randomSpeech[Math.floor(Math.random() * randomSpeech.length)]);
-
-      const msg = new SpeechSynthesisUtterance(randomSpeech);
-      speechSynthesis.speak(msg);
-    }
-
-    return () => clearInterval(interval);
-  }, [vehicleCount]);
+    const socket = io('http://localhost:5000');
+    socket.on('new_detection', (data) => {
+      console.log('New detection:', data.detection);
+      setCount(data.detection);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div>
-      <p className='font-bold text-xl uppercase text-gray-800'>Vehicle count: {vehicleCount}</p>
+      <h1>Real-Time Detections count: {count} </h1>
+      {/* Your code here */}
     </div>
   );
 };
 
 export default VehicleCounter;
+
+
+
+
+
 
