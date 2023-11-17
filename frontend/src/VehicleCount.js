@@ -1,114 +1,68 @@
-// import React, { useState, useEffect, useRef } from 'react';
-
-// const VehicleCount = () => {
-//   const [vehicleCount, setVehicleCount] = useState(0);
-//   const spokenRef = useRef(false);
-
-//   useEffect(() => {
-//     const speakMessage = (message) => {
-//       const speechSynthesis = window.speechSynthesis;
-//       const utterance = new SpeechSynthesisUtterance(message);
-//       speechSynthesis.speak(utterance);
-//     };
-
-//     const updateVehicleCount = () => {
-//       const vehicles = Math.floor(Math.random() * 4);
-//       setVehicleCount(vehicles);
-
-//       if (vehicles > 0 && !spokenRef.current) {
-//         speakMessage(`Caution, ${vehicles} vehicles ahead. Drive with care.`);
-//         spokenRef.current = true; // Set as spoken
-//       } else if (vehicles === 0) {
-//         spokenRef.current = false; // Reset spoken status
-//       }
-//     };
-
-//     const intervalId = setInterval(updateVehicleCount, 4000);
-
-//     updateVehicleCount(); // Initial count check
-
-//     return () => {
-//       clearInterval(intervalId);
-//     };
-//   }, []);
-
-//   return (
-//     <div>
-//       <p className='uppercase text-lg font-bold'>Vehicle Count: {vehicleCount}</p>
-//     </div>
-//   );
-// };
-
-// export default VehicleCount;
-
-
-// import React, { useState, useEffect } from 'react';
-
-// const VehicleCounter = () => {
-//   const [vehicleCount, setVehicleCount] = useState(0);
-//   const [randomSpeech, setRandomSpeech] = useState('');
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setVehicleCount(Math.floor(Math.random() * 3));
-//     }, 4000);
-//     let randomSpeech = "";
-//     if (vehicleCount > 0) {
-//       const vehicles = vehicleCount
-//       if (vehicles==1) {
-//         randomSpeech = 'Caution 1 vehicle ahead'
-//       }
-//       else if(vehicles==2) {
-//         randomSpeech = 'Caution 2 vehicles ahead';
-//       }
-//       else {
-//         randomSpeech = 'Caution 3 vehicles ahead';
-//       }
-//       setRandomSpeech(randomSpeech[Math.floor(Math.random() * randomSpeech.length)]);
-
-//       const msg = new SpeechSynthesisUtterance(randomSpeech);
-//       speechSynthesis.speak(msg);
-//     }
-
-//     return () => clearInterval(interval);
-//   }, [vehicleCount]);
-
-//   return (
-//     <div>
-//       <p className='font-bold text-xl uppercase text-gray-800'>Vehicle count: {vehicleCount}</p>
-//     </div>
-//   );
-// };
-
-// export default VehicleCounter;
-
 
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import { FaCar, FaBicycle, FaTruck, FaExclamationTriangle } from 'react-icons/fa';
 
 const VehicleCounter = () => {
-
   const [count, setCount] = useState(0);
+  const [objType, setObjType] = useState('');
+
   useEffect(() => {
     const socket = io('http://localhost:5000');
     socket.on('new_detection', (data) => {
-      console.log('New detection:', data.detection);
-      setCount(data.detection);
+      console.log('New detection:', data);
+      setCount(data.count);
+      setObjType(data.object_type);
+
+      // Speak the object type
+      speakObjectType(data.object_type);
     });
+
     return () => {
       socket.disconnect();
     };
   }, []);
 
+  const speakObjectType = (type) => {
+    if ('speechSynthesis' in window) {
+      const synth = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance(`Caution! ${type} detected.`);
+      synth.speak(utterance);
+    }
+  };
+
+  const renderIcon = () => {
+    switch (objType) {
+      case 'car':
+        return <FaCar className="text-blue-500" size={30} />;
+      case 'bicycle':
+        return <FaBicycle className="text-green-500" size={30} />;
+      case 'truck':
+        return <FaTruck className="text-red-500" size={30} />;
+      default:
+        return <FaExclamationTriangle className="text-yellow-500" size={30} />;
+    }
+  };
+
   return (
-    <div>
-      <h1>Real-Time Detections count: {count} </h1>
-      {/* Your code here */}
+    <div className="container mx-auto p-8">
+      <h1 className="text-3xl font-bold mb-4">Real-Time Detections Count: {count}</h1>
+      <div className="flex items-center">
+        {objType && (
+          <>
+            <p className="text-lg mr-4">Object Type: {objType}</p>
+            {renderIcon()}
+          </>
+        )}
+      </div>
     </div>
   );
 };
 
 export default VehicleCounter;
+
+
+
 
 
 
