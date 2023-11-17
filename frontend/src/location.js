@@ -51,7 +51,6 @@ const LocationTracker = () => {
     };
 
     fetchData().catch((error) => {
-      // Handle errors when accessing location
       console.error('Error getting location:', error);
       setError('Please enable your device location to use this feature.');
       setIsLoading(false);
