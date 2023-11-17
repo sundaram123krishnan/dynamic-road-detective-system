@@ -14,7 +14,6 @@ const VehicleCounter = () => {
       setCount(data.count);
       setObjType(data.object_type);
 
-      // Speak the object type
       speakObjectType(data.object_type);
     });
 
