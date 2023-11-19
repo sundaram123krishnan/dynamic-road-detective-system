@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import VehicleCounter from './VehicleCount';
-
+import Weather from './Weather';
+import MapContainer from './MapContainer';
+import LiveClock from './LiveClock';
 
 const LocationTracker = () => {
   const [locationData, setLocationData] = useState({});
@@ -63,26 +65,6 @@ const LocationTracker = () => {
     }
   }, [isLoading, locationData, imageUrl]);
 
-  useEffect(() => {
-    if (!isLoading) {
-      const unsplashAccessKey = 'jqMGMmZjaap48DsE7mlb6F2UhWXALiYcB0Ge7SS1qLQ';
-      axios
-        .get('https://api.unsplash.com/photos/random', {
-          params: {
-            client_id: unsplashAccessKey,
-            query: 'city', 
-          },
-        })
-        .then((response) => {
-          const imageSrc = response.data.urls.regular;
-          setImageUrl(imageSrc);
-        })
-        .catch((error) => {
-          console.error('Error fetching image from Unsplash:', error);
-        });
-    }
-  }, [locationData, placeName]);
-
     const sendDataToAPI = async () => {
     const apiUrl = 'https://zc9vil92x3.execute-api.us-east-1.amazonaws.com/dev/';
     
@@ -117,48 +99,36 @@ const LocationTracker = () => {
     }
   };
 
-  useEffect(() => {
-    if (!isLoading && !hasSpoken && !error) {
-      const welcomeText = `Welcome to nilgiri district, ooty, The weather here is 23 degrees. Please Don't drink and drive`;
-      
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(welcomeText);
-
-        speechSynthesis.speak(utterance);
-
-        setHasSpoken(true);
-      }
-    }
-  }, [isLoading, placeName, hasSpoken]);
-
-
-
   return (
-    <div className="min-h-screen bg-gray-100" style={{ backgroundImage: "url('https://c1.wallpaperflare.com/preview/226/746/400/mountains-mountainous-layer-wallpaper.jpg')", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center" }}>
+    <div className="min-h-screen bg-gray-100">
       {isLoading ? (
         <div className="flex items-center justify-center min-h-screen">
           <p className="text-2xl font-bold text-gray-800">Loading...</p>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center space-y-5 lg:space-y-10 py-12">
-          <h1 className="text-3xl font-bold uppercase text-center text-gray-800">
+        <div className="flex flex-col items-center justify-center py-12">
+          <h1 className="text-2xl font-bold uppercase text-center text-gray-800 mb-4">
             Dynamic Road Detective System
           </h1>
-          <div className="flex flex-col items-center space-y-5 lg:space-y-10 text-gray-800">
-            <p className="text-2xl font-bold text-center lg:text-left uppercase">
+  
+          <div className="flex flex-col items-center space-y-2 lg:space-y-4 lg:flex-row lg:space-x-4">
+            <Weather className="mb-2" /> {/* Added margin bottom class */}
+            <LiveClock className="mb-2" /> {/* Added margin bottom class */}
+          </div>
+  
+          <div className="flex flex-col items-center space-y-4 text-gray-800 mt-2 lg:mt-4">
+            <p className="text-2xl font-bold text-center lg:text-left uppercase mt-4 mb-4">
               You are in {placeName.toString()}
             </p>
-            <img
-              src="abc.jpeg"
-              alt="Location"
-              className="w-full md:w-64 h-auto rounded-md shadow-md max-w-screen-sm"
-            />
           </div>
+          <MapContainer userLocation={locationData} className="mt-4" /> {/* Added margin top class */}
           <VehicleCounter />
         </div>
       )}
     </div>
   );
+  
+  
 
 };
 
