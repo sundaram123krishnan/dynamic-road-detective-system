@@ -9,7 +9,7 @@ const VehicleCounter = () => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    const socket = io('http://localhost:5000');
+    const socket = io('http://192.168.1.102:5000');
 
     socket.on('new_detection', (data) => {
       console.log('New detection:', data);

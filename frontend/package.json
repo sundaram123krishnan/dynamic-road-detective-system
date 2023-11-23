@@ -18,6 +18,11 @@
     "socket.io-client": "^4.7.2",
     "web-vitals": "^3.5.0"
   },
+  "overrides": { 
+    "react-vis": {
+      "react": "^17.0.2"
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
