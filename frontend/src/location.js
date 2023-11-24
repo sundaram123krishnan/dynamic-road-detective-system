@@ -4,7 +4,8 @@ import VehicleCounter from './VehicleCount';
 import Weather from './Weather';
 import MapContainer from './MapContainer';
 import LiveClock from './LiveClock';
-
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 const LocationTracker = () => {
   const [locationData, setLocationData] = useState({});
@@ -111,8 +112,12 @@ const LocationTracker = () => {
           <h1 className="text-3xl font-bold uppercase text-center text-textColor mb-4">
             Dynamic Road Safety System
           </h1>
+          <Alert severity="info">
+  <AlertTitle><strong>Info</strong></AlertTitle>
+  Please enable location on your device before using the application— <strong>check it out!</strong>
+</Alert>
   
-          <div className="flex flex-col items-center space-y-2 lg:space-y-4 lg:flex-row lg:space-x-4">
+          <div className="flex flex-col items-center space-y-2 lg:space-y-4 lg:flex-row lg:space-x-4 mt-4">
             <Weather className="mb-2" />
             <LiveClock className="mb-2" />
           </div>
