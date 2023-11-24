@@ -104,7 +104,7 @@ const LocationTracker = () => {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800">
       {isLoading ? (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col gap-2 items-center justify-center min-h-screen">
           <p className="text-2xl font-bold">Loading...</p>
           <Alert severity="info">
   <AlertTitle><strong>Info</strong></AlertTitle>
