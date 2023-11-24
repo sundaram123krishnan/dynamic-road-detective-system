@@ -121,15 +121,16 @@ const LocationTracker = () => {
   Please enable location on your device before using the application— <strong>check it out!</strong>
 </Alert>
   
-          <div className="flex flex-col items-center space-y-2 lg:space-y-4 lg:flex-row lg:space-x-4 mt-4">
-            <Weather className="mb-2" />
-            <LiveClock className="mb-2" />
-          </div>
+         
   
           <div className="flex flex-col items-center space-y-4 mt-2 lg:mt-4">
-            <p className="text-2xl font-bold text-center lg:text-left uppercase mt-4 mb-4">
+            <p className="text-2xl font-bold text-center lg:text-left uppercase mt-4 mb-2">
               You are in {placeName.toString()}
             </p>
+          </div>
+          <div className="flex flex-col items-center space-y-2 lg:space-y-4 lg:flex-row lg:space-x-4 mt-2 mb-4">
+            <Weather className="mb-2" />
+            <LiveClock className="mb-2" />
           </div>
           <MapContainer userLocation={locationData} className="mt-4" />
           <VehicleCounter />
