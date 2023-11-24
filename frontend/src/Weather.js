@@ -31,7 +31,7 @@ const WeatherForecast = () => {
 
 
   return (
-      <h1 className="text-lg font-bold text-center">Weather: 15 &deg;/ 59 F</h1>
+      <h1 className="text-lg font-bold text-center">Weather: 21 &deg;/ 69 F</h1>
   );
 };
 

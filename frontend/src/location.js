@@ -105,11 +105,15 @@ const LocationTracker = () => {
     <div className="min-h-screen bg-gray-100 text-gray-800">
       {isLoading ? (
         <div className="flex items-center justify-center min-h-screen">
-          <p className="text-2xl font-bold text-textColor">Loading...</p>
+          <p className="text-2xl font-bold">Loading...</p>
+          <Alert severity="info">
+  <AlertTitle><strong>Info</strong></AlertTitle>
+  Please enable location on your device before using the application— <strong>check it out!</strong>
+</Alert>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-12">
-          <h1 className="text-3xl font-bold uppercase text-center text-textColor mb-4">
+          <h1 className="text-3xl font-bold uppercase text-center mb-4">
             Dynamic Road Safety System
           </h1>
           <Alert severity="info">
@@ -122,7 +126,7 @@ const LocationTracker = () => {
             <LiveClock className="mb-2" />
           </div>
   
-          <div className="flex flex-col items-center space-y-4 text-textColor mt-2 lg:mt-4">
+          <div className="flex flex-col items-center space-y-4 mt-2 lg:mt-4">
             <p className="text-2xl font-bold text-center lg:text-left uppercase mt-4 mb-4">
               You are in {placeName.toString()}
             </p>
