@@ -5,6 +5,7 @@ import Weather from './Weather';
 import MapContainer from './MapContainer';
 import LiveClock from './LiveClock';
 
+
 const LocationTracker = () => {
   const [locationData, setLocationData] = useState({});
   const [placeName, setPlaceName] = useState({});
@@ -100,33 +101,34 @@ const LocationTracker = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 text-gray-800">
       {isLoading ? (
         <div className="flex items-center justify-center min-h-screen">
-          <p className="text-2xl font-bold text-gray-800">Loading...</p>
+          <p className="text-2xl font-bold text-textColor">Loading...</p>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-12">
-          <h1 className="text-2xl font-bold uppercase text-center text-gray-800 mb-4">
-            Dynamic Road Detective System
+          <h1 className="text-3xl font-bold uppercase text-center text-textColor mb-4">
+            Dynamic Road Safety System
           </h1>
   
           <div className="flex flex-col items-center space-y-2 lg:space-y-4 lg:flex-row lg:space-x-4">
-            <Weather className="mb-2" /> {/* Added margin bottom class */}
-            <LiveClock className="mb-2" /> {/* Added margin bottom class */}
+            <Weather className="mb-2" />
+            <LiveClock className="mb-2" />
           </div>
   
-          <div className="flex flex-col items-center space-y-4 text-gray-800 mt-2 lg:mt-4">
+          <div className="flex flex-col items-center space-y-4 text-textColor mt-2 lg:mt-4">
             <p className="text-2xl font-bold text-center lg:text-left uppercase mt-4 mb-4">
               You are in {placeName.toString()}
             </p>
           </div>
-          <MapContainer userLocation={locationData} className="mt-4" /> {/* Added margin top class */}
+          <MapContainer userLocation={locationData} className="mt-4" />
           <VehicleCounter />
         </div>
       )}
     </div>
   );
+  
   
   
 

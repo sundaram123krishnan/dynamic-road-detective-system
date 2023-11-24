@@ -19,7 +19,7 @@ const LiveClock = () => {
   });
 
   return (
-    <div className="text-lg font-bold text-gray-800" style={{ whiteSpace: 'nowrap' }}>
+    <div className="text-lg font-bold" style={{ whiteSpace: 'nowrap' }}>
       Time: {formattedTime}
     </div>
   );

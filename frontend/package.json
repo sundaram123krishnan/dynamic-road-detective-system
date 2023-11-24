@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.18",
     "@react-google-maps/api": "^2.19.2",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.2",
@@ -18,7 +21,7 @@
     "socket.io-client": "^4.7.2",
     "web-vitals": "^3.5.0"
   },
-  "overrides": { 
+  "overrides": {
     "react-vis": {
       "react": "^17.0.2"
     }
