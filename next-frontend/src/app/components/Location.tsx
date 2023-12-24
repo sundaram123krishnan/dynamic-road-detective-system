@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Loading from "../loading";
 
@@ -41,7 +41,12 @@ export default function Location() {
     }
   }
 
-  async function getCoords() {
+  function displayError() {
+    //TODO: Error display
+    console.log("error occured");
+  }
+
+  useEffect(() => {
     if (global.navigator.geolocation) {
       global.navigator.geolocation?.getCurrentPosition(
         (position: GeolocationPosition) => {
@@ -52,25 +57,30 @@ export default function Location() {
           setLocationData(pos);
           setLoading(true);
         }
-      );
+      ),
+        displayError,
+        {
+          enableHighAccuracy: false,
+          timeout: 5000,
+          maximumAge: Infinity,
+        };
+    }
+  }, []);
+
+  if (loading) {
+    const { latitude, longitude } = locationData;
+    if (latitude !== 0 && longitude !== 0) {
+      const apiKey = process.env.apiKey;
+      const response = getLocationName(apiKey, latitude, longitude);
     }
   }
 
-  if (loading === false) {
-    getCoords();
-  }
-
-  const { latitude, longitude } = locationData;
-
-  if (latitude !== 0 && longitude !== 0) {
-    const apiKey = process.env.apiKey;
-    const response = getLocationName(apiKey, latitude, longitude);
-  }
-  
   {
     while (placeName === "") {
       return <Loading />;
     }
   }
-  return <div>You are in {placeName}</div>;
+  return (
+    <div className="text-xl uppercase font-bold">You are in {placeName}</div>
+  );
 }
