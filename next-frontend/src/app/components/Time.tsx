@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import React from "react";
+
 export default function Time() {
   const [currentTime, setCurrentTime] = useState(new Date());
-  React.useEffect(() => {
+  useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
