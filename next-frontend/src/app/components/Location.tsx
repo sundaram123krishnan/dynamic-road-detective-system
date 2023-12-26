@@ -57,6 +57,7 @@ export default function Location() {
   function displayError() {
     //TODO: Error display
     console.log("error occurred");
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -89,21 +90,11 @@ export default function Location() {
     }
   }, [locationData.latitude, locationData.longitude]);
 
-  const locationName = useMemo(() => {
-    if (
-      loading &&
-      locationData.latitude !== 0 &&
-      locationData.longitude !== 0
-    ) {
-      const apiKey = process.env.apiKey;
-      return getLocationName(
-        apiKey,
-        locationData.latitude,
-        locationData.longitude,
-      );
-    }
-    return "";
-  }, [loading, locationData.latitude, locationData.longitude]);
+  useEffect(() => {
+    const { latitude, longitude } = locationData;
+    const apiKey = process.env.apiKey as string;
+    getLocationName(apiKey, latitude, longitude);
+  }, [locationData]);
 
   const mapOptions = useMemo<google.maps.MapOptions>(
     () => ({
@@ -114,15 +105,12 @@ export default function Location() {
     [],
   );
 
-  if (
-    !isLoaded &&
-    placeName === "" &&
-    locationData.longitude === 0 &&
-    locationData.latitude === 0
-  ) {
+  while (placeName === "" && !loading) {
     return <Loading />;
-  } else {
-    return (
+  }
+
+  return (
+    <>
       <div className="text-xl uppercase font-bold flex flex-col items-center justify-center gap-2 rounded-lg">
         You are in {placeName}
         <GoogleMap
@@ -152,6 +140,6 @@ export default function Location() {
           ))}
         </GoogleMap>
       </div>
-    );
-  }
+    </>
+  );
 }
