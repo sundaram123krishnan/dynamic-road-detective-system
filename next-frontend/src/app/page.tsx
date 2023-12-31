@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import Heading from "./components/Heading";
 import Location from "./components/Location";
+import VehicleCount from "./components/VehicleCount";
 const NoSSR = dynamic(() => import("./components/Time"), { ssr: false });
 
 export default function Page() {
@@ -9,6 +10,7 @@ export default function Page() {
       <Heading />
       <NoSSR />
       <Location />
+      <VehicleCount />
     </div>
   );
 }
