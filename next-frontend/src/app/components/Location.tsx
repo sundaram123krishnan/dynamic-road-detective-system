@@ -55,14 +55,13 @@ export default function Location() {
   }
 
   function displayError() {
-    //TODO: Error display
     console.log("error occurred");
     setLoading(false);
   }
 
   useEffect(() => {
     if (global.navigator.geolocation) {
-      global.navigator.geolocation?.getCurrentPosition(
+      global.navigator?.geolocation?.getCurrentPosition(
         (position: GeolocationPosition) => {
           const pos = {
             longitude: position.coords.longitude,
@@ -73,7 +72,7 @@ export default function Location() {
         },
         displayError,
         {
-          enableHighAccuracy: false,
+          enableHighAccuracy: true,
           timeout: 5000,
           maximumAge: Infinity,
         },
@@ -105,7 +104,7 @@ export default function Location() {
     [],
   );
 
-  while (placeName === "" && !loading) {
+  while ((placeName === "" && !loading) || !isLoaded) {
     return <Loading />;
   }
 
