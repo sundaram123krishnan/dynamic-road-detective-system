@@ -120,10 +120,6 @@ export default function Location() {
           mapContainerStyle={{ width: "400px", height: "350px" }}
           onLoad={() => console.log("Map Component Loaded...")}
         >
-          <MarkerF
-            position={mapCenter}
-            onLoad={() => console.log("Marker Loaded")}
-          />
           {[1000, 2500].map((radius, idx) => (
             <CircleF
               key={idx}
