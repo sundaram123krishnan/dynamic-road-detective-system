@@ -11,7 +11,7 @@ const VehicleCounter = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    const socket = io("http://192.168.1.107:5000");
+    const socket = io("127.0.0.1:5000");
 
     socket.on(
       "new_detection",
