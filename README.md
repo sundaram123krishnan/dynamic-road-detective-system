@@ -3,6 +3,9 @@
 ## Overview
 The Dynamic Road Detective System is a tool designed to assist drivers in detecting vehicles passing through deep curves in hills. This system utilizes advanced technologies such as Next.js for web development, YOLOv4 for vehicle detection, and a Raspberry Pi for hosting the website. This README serves as a guide to set up and utilize the system effectively.
 
+![Screenshot from 2024-02-15 17-50-47](https://github.com/sundaram123krishnan/dynamic-road-detective-system/assets/104441812/e5b9ec56-7edd-4605-aeef-526a530c31d7)
+
+
 ## Features
 - Real-time detection of vehicles in deep curves.
 - User-friendly web interface hosted on Raspberry Pi.
